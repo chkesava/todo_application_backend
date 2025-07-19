@@ -1,0 +1,14 @@
+POST http://localhost:5000/api/todos
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4N2I2ZGU5YzU0Y2UwNGQxYTcwOGQ1ZSIsImlhdCI6MTc1MjkxOTY0NCwiZXhwIjoxNzUzNTI0NDQ0fQ.JB5GWJL30nylzX28pu1UsUmCGBR7Gehg6bEE8qqE0Xc
+
+{
+  "text": "Buy groceries",
+  "priority": "high",
+  "category": "Shopping",
+  "dueDate": "2025-07-21T18:00:00.000Z",
+  "subtasks": [
+    { "text": "Buy milk" },
+    { "text": "Buy bread" }
+  ]
+}

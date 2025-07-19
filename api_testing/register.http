@@ -1,0 +1,11 @@
+POST http://localhost:5000/api/users/register
+Content-Type: application/json
+
+{
+  "name": "kesava",
+  "email": "netdark195@gmail.com",
+  "password": "Nagamani@123"
+}
+
+
+
