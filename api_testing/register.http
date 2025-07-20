@@ -1,4 +1,4 @@
-POST http://localhost:5000/api/users/register
+POST https://todo-application-backend-fe81.onrender.com/api/users/register
 Content-Type: application/json
 
 {
