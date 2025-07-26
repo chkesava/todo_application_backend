@@ -1,7 +1,26 @@
-POST https://todo-application-backend-fe81.onrender.com/api/users/login
-Content-Type: application/json
+# POST http://localhost:5000/api/users/login
+# Content-Type: application/json
 
-{
-  "email": "netdark195@gmail.com",
-  "password": "Nagamani@123"
-}
+# {
+#   "email": "netdark195@gmail.com",
+#   "password": "Kesava@123"
+# }
+
+# POST http://localhost:5000/api/todos
+# Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4N2I2ZGU5YzU0Y2UwNGQxYTcwOGQ1ZSIsImlhdCI6MTc1MzU1MTk3OCwiZXhwIjoxNzU0MTU2Nzc4fQ.5OCoLT-SpeX3i6N_WNuax5htfEkLjrafjgo9M0imUPA
+
+# {
+#   "text": "Buy groceries",
+#   "priority": "high",
+#   "category": "Shopping",
+#   "dueDate": "2025-07-21T18:00:00.000Z",
+#   "subtasks": [
+#     { "text": "Buy milk" },
+#     { "text": "Buy bread" }
+#   ]
+# }
+
+
+GET http://localhost:5000/api/todos?completed=false&deleted=false
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4N2I2ZGU5YzU0Y2UwNGQxYTcwOGQ1ZSIsImlhdCI6MTc1MzU1MTk3OCwiZXhwIjoxNzU0MTU2Nzc4fQ.5OCoLT-SpeX3i6N_WNuax5htfEkLjrafjgo9M0imUPA

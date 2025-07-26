@@ -16,25 +16,68 @@ exports.createTodo = async (req, res) => {
 
 // Get all todos (with filters/pagination/search)
 exports.getTodos = async (req, res) => {
-  const { page = 1, limit = 10, search = '', priority, category, sortBy = 'createdAt', order = 'desc', completed, deleted } = req.query;
-  const query = { user: req.user._id };
+  try {
+    const {
+      page = 1,
+      limit = 10,
+      search,
+      priority,
+      category,
+      sortBy = 'createdAt',
+      order = 'desc',
+      completed,
+      deleted,
+    } = req.query;
 
-  if (search) query.text = { $regex: search, $options: 'i' };
-  if (priority) query.priority = priority;
-  if (category) query.category = category;
-  if (typeof completed !== 'undefined') query.completed = completed === 'true';
-  if (typeof deleted !== 'undefined') query.deleted = deleted === 'true';
-  else query.deleted = false; // Show only not deleted by default
+    const query = { user: req.user._id };
 
-  const todos = await Todo.find(query)
-    .sort({ [sortBy]: order === 'asc' ? 1 : -1 })
-    .limit(parseInt(limit))
-    .skip((parseInt(page) - 1) * parseInt(limit));
+    // Add text search filter only if search param is provided and not empty
+    if (search && search.trim() !== '') {
+      query.text = { $regex: search.trim(), $options: 'i' };
+    }
 
-  const total = await Todo.countDocuments(query);
+    if (priority) {
+      query.priority = priority;
+    }
 
-  res.json({ todos, total, page: parseInt(page), pages: Math.ceil(total / limit) });
+    if (category) {
+      query.category = category;
+    }
+
+    if (typeof completed !== 'undefined') {
+      query.completed = completed === 'true';
+    }
+
+    if (typeof deleted !== 'undefined') {
+      query.deleted = deleted === 'true';
+    } else {
+      // By default, show only non-deleted todos
+      query.deleted = false;
+    }
+
+    // Parse pagination params as integers
+    const pageNum = Math.max(parseInt(page), 1);
+    const limitNum = Math.max(parseInt(limit), 1);
+
+    const total = await Todo.countDocuments(query);
+
+    const todos = await Todo.find(query)
+      .sort({ [sortBy]: order === 'asc' ? 1 : -1 })
+      .limit(limitNum)
+      .skip((pageNum - 1) * limitNum);
+
+    res.json({
+      todos,
+      total,
+      page: pageNum,
+      pages: Math.ceil(total / limitNum),
+    });
+  } catch (error) {
+    console.error('Error fetching todos:', error);
+    res.status(500).json({ message: 'Server error while fetching todos.' });
+  }
 };
+
 
 // Get single todo
 exports.getTodo = async (req, res) => {
